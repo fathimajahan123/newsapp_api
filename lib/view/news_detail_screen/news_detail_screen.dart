@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:newsapp_api/controller/news_details_screen_controller.dart';
 import 'package:newsapp_api/main.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,8 @@ class NewsDetailScreen extends StatefulWidget {
       required this.imageUrl,
       required this.description,
       required this.content,
-      required this.author});
+      required this.author,
+      required this.newsId});
 
   final String title;
   final String imageUrl;
@@ -20,15 +22,21 @@ class NewsDetailScreen extends StatefulWidget {
 
   final String description;
   final String author;
+  final String newsId;
 
   @override
   State<NewsDetailScreen> createState() => _NewsDetailScreenState();
 }
 
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
+  bool isSaved = false;
+
+  late Box savedBox;
+
   @override
   void initState() {
     super.initState();
+    savedBox = Hive.box("saved");
   }
 
   @override
@@ -79,6 +87,29 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             widget.author,
                             style: TextStyle(color: Colors.blue, fontSize: 15),
                           ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                              onTap: () {
+                                newsDetailScreenProvider.savednews(
+                                  widget.newsId,
+                                );
+                              },
+                              child: Icon(
+                                newsDetailScreenProvider.isSaved(widget.newsId)
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_outline,
+                                color: newsDetailScreenProvider
+                                        .isSaved(widget.newsId)
+                                    ? Colors.red
+                                    : null,
+                              )),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Icon(Icons.share)
                         ],
                       )
                     ],

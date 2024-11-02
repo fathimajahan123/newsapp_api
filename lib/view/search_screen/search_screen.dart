@@ -6,6 +6,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:newsapp_api/controller/search_screen_controller.dart';
 import 'package:newsapp_api/model/news_res_model.dart';
 import 'package:newsapp_api/view/news_detail_screen/news_detail_screen.dart';
+import 'package:newsapp_api/view/profile_screen/profile_screen.dart';
+import 'package:newsapp_api/view/search_screen/search_screen2.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -23,18 +25,31 @@ class _MyWidgetState extends State<SearchScreen> {
     final searchscreenprovider = context.watch<SearchScreenController>();
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SearchScreen2()));
+            },
+            child: Icon(Icons.search)),
         actions: [
-          CircleAvatar(
-              radius: 15,
-              backgroundColor: Colors.black,
-              child: Icon(
-                Icons.person_4_sharp,
-                color: Colors.white,
-              )),
+          InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()));
+            },
+            child: CircleAvatar(
+                radius: 15,
+                backgroundColor: Colors.black,
+                child: Icon(
+                  Icons.person_4_sharp,
+                  color: Colors.white,
+                )),
+          ),
           SizedBox(
             width: 10,
           )
         ],
+        centerTitle: true,
         title: Text(
           "NewsGlobe",
           style: TextStyle(
@@ -45,23 +60,6 @@ class _MyWidgetState extends State<SearchScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           children: [
-            SearchBar(
-              controller: controller,
-              leading: IconButton(
-                  onPressed: () {
-                    context
-                        .read<SearchScreenController>()
-                        .onSearch(controller.text, null);
-                  },
-                  icon: Icon(Icons.search)),
-              onChanged: (value) {
-                if (value.isNotEmpty) {
-                  context
-                      .read<SearchScreenController>()
-                      .onSearch(controller.text, null);
-                }
-              },
-            ),
             SizedBox(
               height: 10,
             ),
@@ -81,6 +79,7 @@ class _MyWidgetState extends State<SearchScreen> {
                               description: article.description.toString(),
                               content: article.content.toString(),
                               author: article.author.toString(),
+                              newsId: '',
                             ),
                           ),
                         );
@@ -195,15 +194,17 @@ class _MyWidgetState extends State<SearchScreen> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (contetx) => NewsDetailScreen(
-                                          title: newsArticle.title.toString(),
-                                          imageUrl:
-                                              newsArticle.urlToImage.toString(),
-                                          description: newsArticle.description
-                                              .toString(),
-                                          content:
-                                              newsArticle.content.toString(),
-                                          author:
-                                              newsArticle.author.toString())));
+                                            title: newsArticle.title.toString(),
+                                            imageUrl: newsArticle.urlToImage
+                                                .toString(),
+                                            description: newsArticle.description
+                                                .toString(),
+                                            content:
+                                                newsArticle.content.toString(),
+                                            author:
+                                                newsArticle.author.toString(),
+                                            newsId: '',
+                                          )));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -262,6 +263,7 @@ class _MyWidgetState extends State<SearchScreen> {
                                           selectedNews.description.toString(),
                                       author: selectedNews.author.toString(),
                                       content: selectedNews.content.toString(),
+                                      newsId: '',
                                     ),
                                   ),
                                 );

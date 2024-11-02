@@ -27,8 +27,18 @@ class _SpalshscreenState extends State<Spalshscreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-          child:
-              Lottie.asset("assets/animation/Animation - 1729670032384.json")),
+          child: Column(
+        children: [
+          Lottie.asset("assets/animation/Animation - 1729670032384.json"),
+          Text(
+            "NewsGlobe",
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 30,
+            ),
+          )
+        ],
+      )),
     );
   }
 }

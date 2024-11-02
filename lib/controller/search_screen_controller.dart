@@ -19,6 +19,19 @@ class SearchScreenController with ChangeNotifier {
     "Sports",
     "Technology"
   ];
+
+  String selectedlanuage = "en";
+
+  Future<void> fetchNews(String language) async {
+    final response = await http.get(Uri.parse(
+        "https://newsapi.org/v2/everything?q=$language&langauge=$selectedlanuage&apiKey=56919a0d21584f7b90efa4b3761da47b"));
+  }
+
+  void updatelanguage(String language) {
+    selectedlanuage = language;
+    fetchNews(language);
+  }
+
   SearchScreenController() {
     onSearch(null, "Top");
   }
@@ -32,37 +45,24 @@ class SearchScreenController with ChangeNotifier {
         "https://newsapi.org/v2/everything?q=$keyword&apiKey=56919a0d21584f7b90efa4b3761da47b");
 
     if (category != null && category == "Top") {
-      print("url1111");
       url = Uri.parse(
-          "https://newsapi.org/v2/everything?q=everything&apiKey=56919a0d21584f7b90efa4b3761da47b");
+          "https://newsapi.org/v2/top-headlines?country=us&apiKey=56919a0d21584f7b90efa4b3761da47b");
     } else if (keyword != null && keyword.isNotEmpty) {
-      print("url22222");
-
       url = Uri.parse(
           "https://newsapi.org/v2/everything?q=$keyword&apiKey=56919a0d21584f7b90efa4b3761da47b");
     } else if (category != null && category == "Business") {
-      print("url33333");
-
       url = Uri.parse(
           "https://newsapi.org/v2/everything?q=business&from=2024-09-23&sortBy=publishedAt&apiKey=56919a0d21584f7b90efa4b3761da47b");
     } else if (category != null && category == "Entertainment") {
-      print("url44444");
-
       url = Uri.parse(
           "https://newsapi.org/v2/everything?q=Entertainment&from=2024-09-23&sortBy=publishedAt&apiKey=56919a0d21584f7b90efa4b3761da47b");
     } else if (category != null && category == "Health") {
-      print("url44444");
-
       url = Uri.parse(
           "https://newsapi.org/v2/everything?q=Health&from=2024-09-23&sortBy=publishedAt&apiKey=56919a0d21584f7b90efa4b3761da47b");
     } else if (category != null && category == "Sports") {
-      print("url44444");
-
       url = Uri.parse(
           "https://newsapi.org/v2/everything?q=Sports&from=2024-09-23&sortBy=publishedAt&apiKey=56919a0d21584f7b90efa4b3761da47b");
     } else if (category != null && category == "Technology") {
-      print("url44444");
-
       url = Uri.parse(
           "https://newsapi.org/v2/everything?q=Technology&from=2024-09-23&sortBy=publishedAt&apiKey=56919a0d21584f7b90efa4b3761da47b");
     }
